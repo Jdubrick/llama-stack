@@ -38,3 +38,7 @@ podman run -it -p 8080:8080 -v lightspeed-stack.yaml:/app-root/lightspeed-stack.
 ```
 
 **Note:** If you have built your own version of Lightspeed Core you can replace the image referenced with your own build. Additionally, you can use the Llama Stack container along with the `lightspeed-stack.yaml` file to run Lightspeed Core locally with `uv` from their [repository](https://github.com/lightspeed-core/lightspeed-stack).
+
+## Cluster Deployment
+
+To deploy on a cluster see [DEPLOYMENT.md](./docs/DEPLOYMENT.md).
