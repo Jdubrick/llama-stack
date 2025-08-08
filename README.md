@@ -20,3 +20,21 @@ Run:
 ```
 podman run -it -p 8321:8321 -e VLLM_URL=<your-url> -e VLLM_API_KEY=<api-key> quay.io/rh-ee-jdubrick/llama-stack:latest
 ```
+
+## Updating Llama Stack
+
+If you wish to try new changes with Llama Stack, you can build your own image using the `Containerfile` in the root of this repository.
+
+## Using With Lightspeed Core
+
+Latest Lightspeed Core developer image:
+```
+quay.io/lightspeed-core/lightspeed-stack:dev-latest
+```
+
+To run Lightspeed Core (Llama Stack should be running):
+```
+podman run -it -p 8080:8080 -v lightspeed-stack.yaml:/app-root/lightspeed-stack.yaml:Z quay.io/lightspeed-core/lightspeed-stack:dev-latest
+```
+
+**Note:** If you have built your own version of Lightspeed Core you can replace the image referenced with your own build. Additionally, you can use the Llama Stack container along with the `lightspeed-stack.yaml` file to run Lightspeed Core locally with `uv` from their [repository](https://github.com/lightspeed-core/lightspeed-stack).
