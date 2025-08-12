@@ -23,7 +23,7 @@ spec:
                     value: <your-url>
                   - name: VLLM_API_KEY
                     value: <your-key>
-                image: 'quay.io/rh-ee-jdubrick/llama-stack:latest'
+                image: 'quay.io/redhat-ai-dev/llama-stack:latest'
                 name: llama-stack
                 volumeMounts:
                   - mountPath: /app-root/.llama

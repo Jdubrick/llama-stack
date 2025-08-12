@@ -2,7 +2,7 @@
 
 ## Image Availability
 
-This image is built and available at quay.io/rh-ee-jdubrick/llama-stack:latest for both `amd64` and `arm64` architectures.
+This image is built and available at [quay.io/redhat-ai-dev/llama-stack:latest](https://quay.io/repository/redhat-ai-dev/llama-stack) for both `amd64` and `arm64` architectures.
 
 ## Usage
 
@@ -18,7 +18,7 @@ There are 4 environment variables that you are able to set, broken up below into
 
 Run:
 ```
-podman run -it -p 8321:8321 -e VLLM_URL=<your-url> -e VLLM_API_KEY=<api-key> quay.io/rh-ee-jdubrick/llama-stack:latest
+podman run -it -p 8321:8321 -e VLLM_URL=<your-url> -e VLLM_API_KEY=<api-key> quay.io/redhat-ai-dev/llama-stack:latest
 ```
 
 ## Updating Llama Stack
@@ -34,7 +34,7 @@ quay.io/lightspeed-core/lightspeed-stack:dev-latest
 
 To run Lightspeed Core (Llama Stack should be running):
 ```
-podman run -it -p 8080:8080 -v lightspeed-stack.yaml:/app-root/lightspeed-stack.yaml:Z quay.io/lightspeed-core/lightspeed-stack:dev-latest
+podman run -it -p 8080:8080 -v ./lightspeed-stack.yaml:/app-root/lightspeed-stack.yaml:Z quay.io/lightspeed-core/lightspeed-stack:dev-latest
 ```
 
 **Note:** If you have built your own version of Lightspeed Core you can replace the image referenced with your own build. Additionally, you can use the Llama Stack container along with the `lightspeed-stack.yaml` file to run Lightspeed Core locally with `uv` from their [repository](https://github.com/lightspeed-core/lightspeed-stack).
