@@ -27,7 +27,7 @@ spec:
                 name: llama-stack
                 volumeMounts:
                   - mountPath: /app-root/.llama
-                    name: llama-storage
+                    name: shared-storage
               - image: 'quay.io/lightspeed-core/lightspeed-stack:dev-latest'
                 name: lightspeed-core
                 volumeMounts:
@@ -35,13 +35,13 @@ spec:
                     name: lightspeed-stack
                     subPath: lightspeed-stack.yaml
                   - mountPath: /tmp/data/feedback
-                    name: llama-storage
+                    name: shared-storage
             volumes:
               - configMap:
                   name: lightspeed-stack
                 name: lightspeed-stack
               - emptyDir: {}
-                name: llama-storage
+                name: shared-storage
 ```
 
 Also ensure that `lightspeed-stack` is created as a `Config Map` in the namespace:
