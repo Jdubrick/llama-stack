@@ -27,19 +27,21 @@ spec:
                 name: llama-stack
                 volumeMounts:
                   - mountPath: /app-root/.llama
-                    name: llama-storage
+                    name: shared-storage
               - image: 'quay.io/lightspeed-core/lightspeed-stack:dev-latest'
                 name: lightspeed-core
                 volumeMounts:
                   - mountPath: /app-root/lightspeed-stack.yaml
                     name: lightspeed-stack
                     subPath: lightspeed-stack.yaml
+                  - mountPath: /tmp/data/feedback
+                    name: shared-storage
             volumes:
               - configMap:
                   name: lightspeed-stack
                 name: lightspeed-stack
               - emptyDir: {}
-                name: llama-storage
+                name: shared-storage
 ```
 
 Also ensure that `lightspeed-stack` is created as a `Config Map` in the namespace:
@@ -59,31 +61,20 @@ llama_stack:
 user_data_collection:
   feedback_enabled: false
   feedback_storage: "/tmp/data/feedback"
-  transcripts_enabled: false
-  transcripts_storage: "/tmp/data/transcripts"
-  data_collector:
-    enabled: false
-    ingress_server_url: null
-    ingress_server_auth_token: null
-    ingress_content_service_name: null
-    collection_interval: 7200
-    cleanup_after_send: true
-    connection_timeout_seconds: 30
 authentication:
   module: "noop"
 ```
 
 ## Troubleshooting
+> [!WARNING]
+> Currently there is not full support for RHDH + Lightspeed Core as some endpoints are missing and/or been changed. Please be aware that some functionality may differ than what you are used to with Road Core + RHDH while these changes are being made.
 
 In the current state you need to add the following to your `RHDH` configuration file to enable Lightspeed:
 
 ```yaml
 lightspeed:
   servers:
-    - id: <your-id>
+    - id: vllm
       url: <your-url>
       token: <your-token>
 ```
-
-> [!IMPORTANT]
-> Since we need to add inference servers in `Llama Stack` as well as `Lightspeed` (temporarily?), you must ensure that the `id` of your `Lightspeed` server is `vllm`.
