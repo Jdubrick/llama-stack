@@ -67,11 +67,20 @@ providers:
         api_token: ${env.VLLM_API_KEY}
         max_tokens: ${env.VLLM_MAX_TOKENS:=4096}
         tls_verify: ${env.VLLM_TLS_VERIFY:=true}
+    # - provider_id: ollama
+    #   provider_type: remote::ollama
+    #   config:
+    #     url: ${env.OLLAMA_URL:=http://localhost:11434}
+    # - provider_id: openai
+    #   provider_type: remote::openai
+    #   config:
+    #     api_key: ${env.OPENAI_API_KEY}
   post_training:
   - config:
       checkpoint_format: huggingface
       device: cpu
       distributed_backend: null
+      dpo_output_dir: "."
     provider_id: huggingface
     provider_type: inline::huggingface
   safety:
@@ -92,7 +101,7 @@ providers:
     provider_type: inline::braintrust
   telemetry:
   - config:
-      service_name: 'lightspeed-stack'
+      service_name: 'lightspeed-stack-telemetry'
       sinks: sqlite
       sqlite_db_path: .llama/distributions/ollama/trace_store.db
     provider_id: meta-reference
@@ -120,3 +129,9 @@ server:
   tls_keyfile: null
 shields: []
 vector_dbs: []
+
+models:
+  - model_id: gpt-4-turbo
+    provider_id: openai
+    model_type: llm
+    provider_model_id: gpt-4-turbo

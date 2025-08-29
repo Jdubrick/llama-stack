@@ -21,6 +21,18 @@ Run:
 podman run -it -p 8321:8321 -e VLLM_URL=<your-url> -e VLLM_API_KEY=<api-key> quay.io/redhat-ai-dev/llama-stack:latest
 ```
 
+#### Using the Ollama provider
+
+If you want to use the llama-stack with a Ollama provider, for instance Ollama running on your laptop during development; uncomment the specific `remote::ollama` section in the `run.yaml` file and set the `OLLAMA_URL` environment variable.
+
+The value of `OLLAMA_URL` is the default `http://localhost:11434`, when you are not running this llama-stack inside a container i.e.; if you run llama-stack directly on your laptop terminal, your llama-stack can reference and network with the Ollama at localhost.
+
+The value of `OLLAMA_URL` is `http://host.containers.internal:11434` if you are running llama-stack inside a container i.e.; if you run llama-stack with the podman run command above, it needs to access the Ollama endpoint on your laptop not inside the container.
+
+#### Using the OpenAI provider
+
+If you are having issues with llama-stack `remote::vllm` or `remote::ollama` with specific models, you can also use the `remote::openai` provider by uncommenting the specific section in the `run.yaml` file. Set the `OPENAI_API_KEY` environment variable. To get your API Key, go to [platform.openai.com](https://platform.openai.com/settings/organization/api-keys).
+
 ## Updating Llama Stack
 
 If you wish to try new changes with Llama Stack, you can build your own image using the `Containerfile` in the root of this repository.

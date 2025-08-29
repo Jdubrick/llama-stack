@@ -10,10 +10,9 @@ RUN dnf install -y gcc python3.12-devel make && \
     dnf clean all && \
     pip3.12 install uv
 
-COPY ./pyproject.toml ./run.yaml ./uv.lock ./scripts/entrypoint.sh ./
+COPY ./pyproject.toml ./
 
-RUN chmod +x entrypoint.sh
-RUN uv sync --locked --no-dev
+RUN uv sync --no-dev
 
 FROM registry.access.redhat.com/ubi9/python-312-minimal
 ARG APP_ROOT=/app-root
@@ -26,11 +25,16 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONIOENCODING=UTF-8 \
     LANG=en_US.UTF-8
 
-COPY --from=builder --chown=1001:1001 /app-root /app-root
+COPY --from=builder --chown=1001:1001 /app-root/.venv ./.venv
+
+COPY --chown=1001:1001 ./run.yaml ./scripts/entrypoint.sh ./
+
+RUN chmod +x entrypoint.sh
 
 ENV PATH="/app-root/.venv/bin:$PATH"
 
 EXPOSE 8321
+
 ENTRYPOINT ["./entrypoint.sh"]
 
 USER 1001
