@@ -129,9 +129,3 @@ server:
   tls_keyfile: null
 shields: []
 vector_dbs: []
-
-models:
-  - model_id: gpt-4-turbo
-    provider_id: openai
-    model_type: llm
-    provider_model_id: gpt-4-turbo
