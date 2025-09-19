@@ -24,6 +24,13 @@ metadata_store:
   db_path: .llama/distributions/ollama/registry.db
   namespace: null
   type: sqlite
+models:
+- model_id: sentence-transformers/all-mpnet-base-v2
+  metadata:
+      embedding_dimension: 768
+  model_type: embedding
+  provider_id: sentence-transformers
+  provider_model_id: "/app-root/embeddings_model"
 providers:
   agents:
   - config:
@@ -75,6 +82,9 @@ providers:
     #   provider_type: remote::openai
     #   config:
     #     api_key: ${env.OPENAI_API_KEY}
+    - provider_id: sentence-transformers
+      provider_type: inline::sentence-transformers
+      config: {}
   post_training:
   - config:
       checkpoint_format: huggingface
@@ -107,9 +117,12 @@ providers:
     provider_id: meta-reference
     provider_type: inline::meta-reference
   tool_runtime:
-    - provider_id: model-context-protocol
-      provider_type: remote::model-context-protocol
-      config: {}
+  - provider_id: model-context-protocol
+    provider_type: remote::model-context-protocol
+    config: {}
+  - provider_id: rag-runtime 
+    provider_type: inline::rag-runtime
+    config: {}
   vector_io:
   - config:
       kvstore:
@@ -118,6 +131,13 @@ providers:
         type: sqlite
     provider_id: faiss
     provider_type: inline::faiss
+  - provider_id: rhdh-docs 
+    provider_type: inline::faiss
+    config:
+      kvstore:
+        type: sqlite
+        namespace: null
+        db_path: /app-root/vector_db/rhdh_product_docs/1.7/faiss_store.db
 scoring_fns: []
 server:
   auth: null
@@ -128,4 +148,12 @@ server:
   tls_certfile: null
   tls_keyfile: null
 shields: []
-vector_dbs: []
+tool_groups:
+- provider_id: rag-runtime
+  toolgroup_id: builtin::rag
+  description: "Only use for questions specifically about Red Hat Developer Hub (RHDH). Searches technical documentation for RHDH installation, discovery, configuration, release, upgrade, control access, integration, observability, and extending with plugins. Do not use for any other topic outside RHDH."
+vector_dbs:
+- embedding_dimension: 768
+  embedding_model: sentence-transformers/all-mpnet-base-v2
+  provider_id: rhdh-docs
+  vector_db_id: rhdh-product-docs-1_7

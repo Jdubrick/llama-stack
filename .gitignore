@@ -1,1 +1,5 @@
 .llama
+
+# Don't track the RAG data and model from the rag-content image
+embeddings_model
+vector_db

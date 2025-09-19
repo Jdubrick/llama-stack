@@ -33,6 +33,7 @@ dependencies = [
     "trl>=0.18.2",
     "greenlet",
     "torch",
+    "sentence-transformers>=5.0.0",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"

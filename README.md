@@ -1,4 +1,4 @@
-# Redhat-Ai-Dev Llama Stack
+# Redhat-AI-Dev Llama Stack
 
 ## Image Availability
 
@@ -6,9 +6,10 @@ This image is built and available at [quay.io/redhat-ai-dev/llama-stack:latest](
 
 ## Usage
 
-There are 4 environment variables that you are able to set, broken up below into **required** and **optional**.
+There is a make target and 4 environment variables that you are able to set, broken up below into **required** and **optional**.
 
 ### Required
+- `make get-rag`: Gets the RAG data and the embeddings model from the rag-content image registry to your local project dir
 - `$VLLM_URL`: The url of your server, i.e. `http://localhost:8080/v1`
 - `VLLM_API_KEY`: API key for the `$VLLM_URL`
 
@@ -18,7 +19,15 @@ There are 4 environment variables that you are able to set, broken up below into
 
 Run:
 ```
-podman run -it -p 8321:8321 -e VLLM_URL=<your-url> -e VLLM_API_KEY=<api-key> quay.io/redhat-ai-dev/llama-stack:latest
+podman run -it -p 8321:8321 -e VLLM_URL=<your-url> -e VLLM_API_KEY=<api-key> -v ./embeddings_model:/app-root/embeddings_model -v ./vector_db/rhdh_product_docs:/app-root/vector_db/rhdh_product_docs quay.io/redhat-ai-dev/llama-stack:latest
+```
+
+### Setting the DEBUG option
+
+If you want DEBUG logging from the llama-stack server, set the following environment variable when executing podman run
+
+```
+-e LLAMA_STACK_LOGGING=all=DEBUG
 ```
 
 #### Using the Ollama provider
