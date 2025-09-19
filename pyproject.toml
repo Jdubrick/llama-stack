@@ -34,6 +34,8 @@ dependencies = [
     "greenlet",
     "torch",
     "sentence-transformers>=5.0.0",
+    "pydantic>=2.10.6",
+    "httpx",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"
