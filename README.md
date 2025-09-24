@@ -6,28 +6,33 @@ This image is built and available at [quay.io/redhat-ai-dev/llama-stack:latest](
 
 ## Usage
 
+> [!IMPORTANT]
+> The default Llama Stack configuration file that is baked into the built image contains tools. Ensure your provided inference server has tool calling **enabled**.
+
 There is a make target and 4 environment variables that you are able to set, broken up below into **required** and **optional**.
 
 ### Required
 - `make get-rag`: Gets the RAG data and the embeddings model from the rag-content image registry to your local project dir
 - `$VLLM_URL`: The url of your server, i.e. `http://localhost:8080/v1`
-- `VLLM_API_KEY`: API key for the `$VLLM_URL`
+- `$VLLM_API_KEY`: API key for the `$VLLM_URL`
+- `$PROVIDER`: The provider you want to use for question validation. This should match what the provider value you are using under `inference`, such as `vllm`, `ollama`, `openai`. Defaults to `vllm`
+- `$MODEL_NAME`: The name of the LLM model you want to use for question validation
 
 ### Optional
 - `$VLLM_MAX_TOKENS`: Defaults to `4096`
 - `$VLLM_TLS_VERIFY`: Defaults to `true`
+- `$LLAMA_STACK_LOGGING`: Set to `all=DEBUG` to enable `DEBUG` logging through Llama Stack
 
 Run:
 ```
 podman run -it -p 8321:8321 -e VLLM_URL=<your-url> -e VLLM_API_KEY=<api-key> -v ./embeddings_model:/app-root/embeddings_model -v ./vector_db/rhdh_product_docs:/app-root/vector_db/rhdh_product_docs quay.io/redhat-ai-dev/llama-stack:latest
 ```
 
-### Setting the DEBUG option
+**Note:** You can include all of these variables in a `.env` file and pass that instead to your container. See [default-values.env](./env/default-values.env) for a template. It is recommended you copy that file to `values.env` to avoid committing it to Git.
 
-If you want DEBUG logging from the llama-stack server, set the following environment variable when executing podman run
-
+Run:
 ```
--e LLAMA_STACK_LOGGING=all=DEBUG
+podman run -it -p 8321:8321 --env-file ./env/values.env -v ./embeddings_model:/app-root/embeddings_model -v ./vector_db/rhdh_product_docs:/app-root/vector_db/rhdh_product_docs quay.io/redhat-ai-dev/llama-stack:latest
 ```
 
 #### Using the Ollama provider
