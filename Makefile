@@ -19,4 +19,4 @@ help: ## Show this help screen
 	@echo ''
 
 update-question-validation:
-	curl -o ./config/providers.d/inline/safety/lightspeed_question_validity.yaml https://raw.githubusercontent.com/lightspeed-core/lightspeed-providers/refs/heads/main/resources/external_providers/inline/safety/lightspeed_question_validity.yaml
+	curl -o ./config/providers.d/inline/safety/lightspeed_question_validity.yaml https://raw.githubusercontent.com/Jdubrick/lightspeed-providers/refs/heads/test-shield-fix/resources/external_providers/inline/safety/lightspeed_question_validity.yaml

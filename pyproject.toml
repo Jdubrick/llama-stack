@@ -34,9 +34,11 @@ dependencies = [
     "greenlet",
     "torch",
     "sentence-transformers>=5.0.0",
-    "lightspeed_stack_providers @ git+https://github.com/Jdubrick/lightspeed-providers.git@add-run-moderation",
+    "lightspeed_stack_providers @ git+https://github.com/Jdubrick/lightspeed-providers.git@test-shield-fix",
     "pydantic>=2.10.6",
     "httpx",
+    "litellm>=1.75.5.post1", 
+    "sqlalchemy>=2.0.0",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"
