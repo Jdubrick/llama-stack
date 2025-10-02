@@ -29,6 +29,8 @@ COPY --from=builder --chown=1001:1001 /app-root/.venv ./.venv
 
 COPY --chown=1001:1001 ./run.yaml ./scripts/entrypoint.sh ./
 
+COPY --chown=1001:1001 ./config/ ./config
+
 RUN chmod +x entrypoint.sh
 
 ENV PATH="/app-root/.venv/bin:$PATH"
