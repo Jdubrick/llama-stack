@@ -32,6 +32,13 @@ LLAMA_STACK_LOGGING=all=DEBUG
 
 Each inference has its own set of environment variables. You can include all of these variables in a `.env` file and pass that instead to your container. See [default-values.env](./env/default-values.env) for a template. It is recommended you copy that file to `values.env` to avoid committing it to Git.
 
+> [!IMPORTANT]
+> These are `.env` files, you should enter values without quotations to avoid errors in parsing. 
+> 
+> VLLM_API_KEY=token ✅
+> 
+> VLLM_API_KEY="token" ❌
+
 #### vLLM
 
 `vLLM` is the inference server enabled by default for this provided configuration of Llama Stack. In order to properly set it up you will need to set the following environment variables:
