@@ -117,6 +117,7 @@ providers:
           - Deployments
           - Software Catalogs
           - Software Templates
+          - Tech Docs
           
           Your job is to determine if a user's question is related to the categories you are an expert in. If the question is related to those categories, \
           or any features that may be related to those categories, you will answer with ${allowed}.
