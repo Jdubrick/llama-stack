@@ -3,15 +3,11 @@ image_name: minimal-viable-llama-stack-configuration
 
 apis:
   - agents
-  - datasetio
-  - eval
   - inference
-  - post_training
   - safety
-  - scoring
-  - telemetry
   - tool_runtime
   - vector_io
+  - files
 benchmarks: []
 container_image: null
 datasets: []
@@ -43,29 +39,6 @@ providers:
         type: sqlite
     provider_id: meta-reference
     provider_type: inline::meta-reference
-  datasetio:
-  - config:
-      kvstore:
-        db_path: .llama/distributions/ollama/huggingface_datasetio.db
-        namespace: null
-        type: sqlite
-    provider_id: huggingface
-    provider_type: remote::huggingface
-  - config:
-      kvstore:
-        db_path: .llama/distributions/ollama/localfs_datasetio.db
-        namespace: null
-        type: sqlite
-    provider_id: localfs
-    provider_type: inline::localfs
-  eval:
-  - config:
-      kvstore:
-        db_path: .llama/distributions/ollama/meta_reference_eval.db
-        namespace: null
-        type: sqlite
-    provider_id: meta-reference
-    provider_type: inline::meta-reference
   inference:
     - provider_id: vllm
       provider_type: remote::vllm
@@ -85,14 +58,6 @@ providers:
     - provider_id: sentence-transformers
       provider_type: inline::sentence-transformers
       config: {}
-  post_training:
-  - config:
-      checkpoint_format: huggingface
-      device: cpu
-      distributed_backend: null
-      dpo_output_dir: "."
-    provider_id: huggingface
-    provider_type: inline::huggingface
   safety:
     - config:
         excluded_categories: []
@@ -163,24 +128,6 @@ providers:
         invalid_question_response: |-
           Hi, I'm the Red Hat Developer Hub Lightspeed assistant, I can help you with questions about Red Hat Developer Hub or Backstage.
           Please ensure your question is about these topics, and feel free to ask again!
-  scoring:
-  - config: {}
-    provider_id: basic
-    provider_type: inline::basic
-  - config: {}
-    provider_id: llm-as-judge
-    provider_type: inline::llm-as-judge
-  - config:
-      openai_api_key: '********'
-    provider_id: braintrust
-    provider_type: inline::braintrust
-  telemetry:
-  - config:
-      service_name: 'lightspeed-stack-telemetry'
-      sinks: sqlite
-      sqlite_db_path: .llama/distributions/ollama/trace_store.db
-    provider_id: meta-reference
-    provider_type: inline::meta-reference
   tool_runtime:
   - provider_id: model-context-protocol
     provider_type: remote::model-context-protocol
@@ -203,6 +150,14 @@ providers:
         type: sqlite
         namespace: null
         db_path: /app-root/vector_db/rhdh_product_docs/1.7/faiss_store.db
+  files:
+    - provider_type: inline::localfs
+      provider_id: rag-fs
+      config:
+        storage_dir: .llama/rag/files
+        metadata_store:
+          type: sqlite
+          db_path: .llama/rag/files_metadata.db
 scoring_fns: []
 server:
   auth: null
@@ -218,6 +173,7 @@ shields:
 tool_groups:
 - provider_id: rag-runtime
   toolgroup_id: builtin::rag
+  files: rag-fs
   description: "Only use for questions specifically about Red Hat Developer Hub (RHDH). Searches technical documentation for RHDH installation, discovery, configuration, release, upgrade, control access, integration, observability, and extending with plugins. Do not use for any other topic outside RHDH."
 vector_dbs:
 - embedding_dimension: 768

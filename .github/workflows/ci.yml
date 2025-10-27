@@ -2,13 +2,13 @@ name: CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, update-safety-provider ]
 
 env:
   IMAGE_NAME: llama-stack
   IMAGE_REGISTRY: quay.io
-  REGISTRY_ORG: redhat-ai-dev
-  LATEST_TAG: latest
+  REGISTRY_ORG: rh-ee-jdubrick
+  LATEST_TAG: test
   CONTAINER_FILE: Containerfile
 
 jobs:
