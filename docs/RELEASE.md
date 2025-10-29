@@ -10,4 +10,5 @@
 4. Create new release Tag on GitHub.
    - GitHub Action CI will build and push the release image `X.X.X`.
    - E.g. For release `0.1.0` it will build and push `quay.io/redhat-ai-dev/llama-stack:0.1.0`.
+     - Ensure the **name** of the release is in the form `X.X.X`.
 5. Announce release on Slack in `#forum-rhdh-plugins-and-ai`.
