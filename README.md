@@ -13,10 +13,19 @@
 - [Makefile Commands](#makefile-commands)
 - [Contributing](#contributing)
 
-
 ## Image Availability
 
-This image is built and available at [quay.io/redhat-ai-dev/llama-stack:latest](https://quay.io/repository/redhat-ai-dev/llama-stack) for both `amd64` and `arm64` architectures.
+### Latest Stable Release
+
+```
+quay.io/redhat-ai-dev/llama-stack:0.1.0
+```
+
+### Latest Developer Release
+
+```
+quay.io/redhat-ai-dev/llama-stack:latest
+```
 
 ## Usage
 
