@@ -42,12 +42,16 @@ jobs:
       - name: Determine tags
         id: tags
         run: |
-          if [[ "${{ github.event_name }}" == "release" ]]; then
-            TAGS="${{ github.event.release.tag_name }}"
+          if [ "${GITHUB_EVENT_NAME}" = "release" ]; then
+            echo "tags<<EOF" >> $GITHUB_OUTPUT
+            echo "${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
           else
-            TAGS="latest\n${{ github.sha }}"
+            echo "tags<<EOF" >> $GITHUB_OUTPUT
+            echo "latest" >> $GITHUB_OUTPUT
+            echo "${GITHUB_SHA}" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
           fi
-          echo "tags=$TAGS" >> $GITHUB_OUTPUT
 
       - name: Build image with Buildah
         id: build_image
