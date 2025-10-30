@@ -141,6 +141,8 @@ To deploy on a cluster see [DEPLOYMENT.md](./docs/DEPLOYMENT.md).
 | ---- | ----|
 | **get-rag** | Gets the RAG data and the embeddings model from the rag-content image registry to your local project directory |
 | **update-question-validation** | Updates the question validation content in `providers.d` |
+| **validate-prompt-templates** | Validates prompt values in run.yaml. **Requires Python >= 3.11** |
+| **update-prompt-templates** | Updates the prompt values in run.yaml. **Requires Python >= 3.11** |
 
 ## Contributing
 
