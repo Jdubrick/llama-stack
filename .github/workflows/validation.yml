@@ -1,0 +1,21 @@
+name: Question Validation Sync Check
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-prompt:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: ./scripts/python-scripts
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Environment
+        run: pip3 install -r requirements.txt
+      - name: Validate prompt
+        run: python3 sync.py -t validate
