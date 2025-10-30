@@ -41,8 +41,3 @@ validate-prompt-templates: $(VENV)/bin/activate
 
 update-prompt-templates: $(VENV)/bin/activate
 	$(call run_sync,update)
-
-
-
-
-
