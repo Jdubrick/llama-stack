@@ -50,19 +50,25 @@ Each inference has its own set of environment variables. You can include all of 
 
 #### vLLM
 
-`vLLM` is the inference server enabled by default for this provided configuration of Llama Stack. In order to properly set it up you will need to set the following environment variables:
-
-- `VLLM_URL`: The url of your server, i.e. `http://localhost:8080/v1`
-- `VLLM_API_KEY`: API key for the `VLLM_URL`
-
-In addition, you can set the following for more control over tokens and security:
-
-- `VLLM_MAX_TOKENS`: Defaults to `4096`
-- `VLLM_TLS_VERIFY`: Defaults to `true`
+**Required**
+```env
+ENABLE_VLLM=true
+VLLM_URL=<your-server-url>/v1
+VLLM_API_KEY=<your-api-key>
+```
+**Optional**
+```env
+VLLM_MAX_TOKENS=<defaults to 4096>
+VLLM_TLS_VERIFY=<defaults to true>
+```
 
 #### Ollama
 
-If you want to use the llama-stack with a Ollama provider, for instance Ollama running on your laptop during development; uncomment the specific `remote::ollama` section in the `run.yaml` file and set the `OLLAMA_URL` environment variable.
+**Required**
+```env
+ENABLE_OLLAMA=true
+OLLAMA_URL=<your-ollama-url>
+```
 
 The value of `OLLAMA_URL` is the default `http://localhost:11434`, when you are not running this llama-stack inside a container i.e.; if you run llama-stack directly on your laptop terminal, your llama-stack can reference and network with the Ollama at localhost.
 
@@ -70,7 +76,21 @@ The value of `OLLAMA_URL` is `http://host.containers.internal:11434` if you are 
 
 #### OpenAI
 
-If you are having issues with llama-stack `remote::vllm` or `remote::ollama` with specific models, you can also use the `remote::openai` provider by uncommenting the specific section in the `run.yaml` file. Set the `OPENAI_API_KEY` environment variable. To get your API Key, go to [platform.openai.com](https://platform.openai.com/settings/organization/api-keys).
+**Required**
+```env
+ENABLE_OPENAI=true
+OPENAI_API_KEY=<your-api-key>
+```
+
+To get your API Key, go to [platform.openai.com](https://platform.openai.com/settings/organization/api-keys).
+
+#### Gemini
+
+**Required**
+```env
+ENABLE_GEMINI=true
+GEMINI_API_KEY=<your-api-key>
+```
 
 ### Configuring RAG
 
