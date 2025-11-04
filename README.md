@@ -84,13 +84,17 @@ OPENAI_API_KEY=<your-api-key>
 
 To get your API Key, go to [platform.openai.com](https://platform.openai.com/settings/organization/api-keys).
 
-#### Gemini
+#### Vertex AI (Gemini)
 
 **Required**
 ```env
-ENABLE_GEMINI=true
-GEMINI_API_KEY=<your-api-key>
+ENABLE_VERTEX_AI=true
+VERTEX_AI_PROJECT=
+VERTEX_AI_LOCATION=
+GOOGLE_APPLICATION_CREDENTIALS=
 ```
+
+For information about these variables see: https://llamastack.github.io/v0.2.18/providers/inference/remote_vertexai.html.
 
 ### Configuring RAG
 

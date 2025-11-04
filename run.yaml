@@ -82,10 +82,11 @@ providers:
       provider_type: remote::openai
       config:
         api_key: ${env.OPENAI_API_KEY:=}
-    - provider_id: ${env.ENABLE_GEMINI:+gemini}
-      provider_type: remote::gemini
+    - provider_id: ${env.ENABLE_VERTEX_AI:+vertexai}
+      provider_type: remote::vertexai
       config:
-        api_key: ${env.GEMINI_API_KEY:=}
+        project: ${env.VERTEX_AI_PROJECT:=}
+        location: ${env.VERTEX_AI_LOCATION:=us-central1}
     - provider_id: sentence-transformers
       provider_type: inline::sentence-transformers
       config: {}
