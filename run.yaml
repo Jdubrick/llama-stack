@@ -67,21 +67,26 @@ providers:
     provider_id: meta-reference
     provider_type: inline::meta-reference
   inference:
-    - provider_id: vllm
+    - provider_id: ${env.ENABLE_VLLM:+vllm}
       provider_type: remote::vllm
       config:
         url: ${env.VLLM_URL}
         api_token: ${env.VLLM_API_KEY}
         max_tokens: ${env.VLLM_MAX_TOKENS:=4096}
         tls_verify: ${env.VLLM_TLS_VERIFY:=true}
-    # - provider_id: ollama
-    #   provider_type: remote::ollama
-    #   config:
-    #     url: ${env.OLLAMA_URL:=http://localhost:11434}
-    # - provider_id: openai
-    #   provider_type: remote::openai
-    #   config:
-    #     api_key: ${env.OPENAI_API_KEY}
+    - provider_id: ${env.ENABLE_OLLAMA:+ollama}
+      provider_type: remote::ollama
+      config:
+        url: ${env.OLLAMA_URL:=http://localhost:11434}
+    - provider_id: ${env.ENABLE_OPENAI:+openai}
+      provider_type: remote::openai
+      config:
+        api_key: ${env.OPENAI_API_KEY:=}
+    - provider_id: ${env.ENABLE_VERTEX_AI:+vertexai}
+      provider_type: remote::vertexai
+      config:
+        project: ${env.VERTEX_AI_PROJECT:=}
+        location: ${env.VERTEX_AI_LOCATION:=us-central1}
     - provider_id: sentence-transformers
       provider_type: inline::sentence-transformers
       config: {}
