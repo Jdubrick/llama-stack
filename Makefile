@@ -1,4 +1,7 @@
 RAG_CONTENT_IMAGE ?= quay.io/redhat-ai-dev/rag-content:release-1.7-lcs
+VENV := $(CURDIR)/scripts/python-scripts/.venv
+PYTHON := $(VENV)/bin/python3
+PIP := $(VENV)/bin/pip3
 
 default: help
 
@@ -21,3 +24,20 @@ help: ## Show this help screen
 # TODO (Jdubrick): Replace reference to lightspeed-core/lightspeed-providers once bug is addressed.
 update-question-validation:
 	curl -o ./config/providers.d/inline/safety/lightspeed_question_validity.yaml https://raw.githubusercontent.com/Jdubrick/lightspeed-providers/refs/heads/devai/resources/external_providers/inline/safety/lightspeed_question_validity.yaml
+
+$(VENV)/bin/activate: ./scripts/python-scripts/requirements.txt
+	python3 -m venv $(VENV)
+	$(PIP) install -r scripts/python-scripts/requirements.txt
+	touch $(VENV)/bin/activate
+
+define run_sync
+	cd ./scripts/python-scripts && \
+	$(PYTHON) sync.py -t $(1)
+endef
+
+.PHONY: validate-prompt-templates update-prompt-templates
+validate-prompt-templates: $(VENV)/bin/activate
+	$(call run_sync,validate)
+
+update-prompt-templates: $(VENV)/bin/activate
+	$(call run_sync,update)
