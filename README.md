@@ -146,4 +146,17 @@ To deploy on a cluster see [DEPLOYMENT.md](./docs/DEPLOYMENT.md).
 
 ## Contributing
 
+### Local Development Requirements
+
+- [Yarn](https://yarnpkg.com/)
+- [Node.js >= v22](https://nodejs.org/en/about/previous-releases)
+
+### Updating YAML Files
+
+This repository implements Prettier to handle all YAML formatting.
+```sh
+yarn format # Runs Prettier to update the YAMl files in this repository
+yarn verify # Runs Prettier to check the YAML files in this repository
+```
+
 If you wish to try new changes with Llama Stack, you can build your own image using the `Containerfile` in the root of this repository.
