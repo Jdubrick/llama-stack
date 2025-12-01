@@ -14,6 +14,7 @@
   - [Running on a Cluster](#running-on-a-cluster)
 - [Makefile Commands](#makefile-commands)
 - [Contributing](#contributing)
+- [Troubleshooting](#troubleshooting)
 
 ## Image Availability
 
@@ -167,3 +168,17 @@ yarn verify # Runs Prettier to check the YAML files in this repository
 ```
 
 If you wish to try new changes with Llama Stack, you can build your own image using the `Containerfile` in the root of this repository.
+
+## Troubleshooting
+
+If you experience an error related to permissions for the `vector_db`, such as:
+
+```sh
+sqlite3.OperationalError: attempt to write a readonly database
+```
+
+You should give the `vector_db` directory write permissions by:
+
+```
+chmod -R 777 vector_db
+```
