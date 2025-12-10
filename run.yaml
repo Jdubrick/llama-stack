@@ -189,4 +189,3 @@ vector_dbs:
     vector_db_id: rhdh-product-docs-1_8
     provider_vector_db_id: rhdh-product-docs-1_8
     vector_store_id: rhdh-product-docs-1_8
-
