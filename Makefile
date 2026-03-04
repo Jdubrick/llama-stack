@@ -13,20 +13,41 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-RAG_CONTENT_IMAGE ?= quay.io/redhat-ai-dev/rag-content:release-1.9-lcs
+RAG_CONTENT_IMAGE ?= quay.io/redhat-ai-dev/rag-content:release-1.9-lls-0.4.3
+COMPOSE ?= podman compose
+WITH_OLLAMA ?= true
+
+ifeq ($(WITH_OLLAMA),false)
+LOCAL_COMPOSE_FILES := -f compose/compose.yaml -f compose/compose.no-ollama.yaml
+else
+LOCAL_COMPOSE_FILES := -f compose/compose.yaml
+endif
+
 VENV := $(CURDIR)/scripts/python-scripts/.venv
 PYTHON := $(VENV)/bin/python3
 PIP := $(VENV)/bin/pip3
 
+.PHONY: default
 default: help
 
+.PHONY: get-rag
 get-rag: ## Download a copy of the RAG embedding model and vector database
 	podman create --replace --name tmp-rag-container $(RAG_CONTENT_IMAGE) true
-	rm -rf vector_db embeddings_model
-	podman cp tmp-rag-container:/rag/vector_db vector_db
-	podman cp tmp-rag-container:/rag/embeddings_model embeddings_model
+	rm -rf rag-content
+	mkdir -p rag-content
+	podman cp tmp-rag-container:/rag/vector_db rag-content
+	podman cp tmp-rag-container:/rag/embeddings_model rag-content
 	podman rm tmp-rag-container
 
+.PHONY: local-up
+local-up: ## Start local compose services (WITH_OLLAMA=true|false)
+	$(COMPOSE) $(LOCAL_COMPOSE_FILES) up -d
+
+.PHONY: local-down
+local-down: ## Stop local compose services
+	$(COMPOSE) $(LOCAL_COMPOSE_FILES) down
+
+.PHONY: help
 help: ## Show this help screen
 	@echo 'Usage: make <OPTIONS> ... <TARGETS>'
 	@echo ''
@@ -36,6 +57,7 @@ help: ## Show this help screen
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-33s\033[0m %s\n", $$1, $$2}'
 	@echo ''
 
+.PHONY: update-question-validation
 update-question-validation:
 	curl -o ./config/providers.d/inline/safety/lightspeed_question_validity.yaml https://raw.githubusercontent.com/lightspeed-core/lightspeed-providers/refs/tags/0.1.17/resources/external_providers/inline/safety/lightspeed_question_validity.yaml
 
@@ -49,16 +71,18 @@ define run_sync
 	$(PYTHON) sync.py -t $(1)
 endef
 
-.PHONY: validate-prompt-templates update-prompt-templates
+.PHONY: validate-prompt-templates
 validate-prompt-templates: $(VENV)/bin/activate
 	$(call run_sync,validate)
 
+.PHONY: update-prompt-templates
 update-prompt-templates: $(VENV)/bin/activate
 	$(call run_sync,update)
 
-.PHONY: validate-yaml format-yaml
-validate-yaml: ## Validate YAML formatting/syntax in config directories
+.PHONY: validate-yaml
+validate-yaml:
 	yarn verify
 
-format-yaml: ## Format YAML files in config directories
+.PHONY: format-yaml
+format-yaml:
 	yarn format
