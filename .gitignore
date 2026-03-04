@@ -4,6 +4,7 @@
 embeddings_model
 vector_db
 
+rag-content 
 values.env
 
 .venv
