@@ -55,3 +55,10 @@ validate-prompt-templates: $(VENV)/bin/activate
 
 update-prompt-templates: $(VENV)/bin/activate
 	$(call run_sync,update)
+
+.PHONY: validate-yaml format-yaml
+validate-yaml: ## Validate YAML formatting/syntax in config directories
+	yarn verify
+
+format-yaml: ## Format YAML files in config directories
+	yarn format

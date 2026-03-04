@@ -20,20 +20,6 @@ on:
     branches: [ main ]
 
 jobs:
-  validate-prompt:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    defaults:
-      run:
-        working-directory: ./scripts/python-scripts
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Setup Environment
-        run: pip3 install -r requirements.txt
-      - name: Validate prompt
-        run: python3 sync.py -t validate
   validate-yaml:
       runs-on: ubuntu-latest
       permissions:
@@ -47,6 +33,6 @@ jobs:
             node-version: '22.21'
             cache: 'yarn'
         - name: Install dependencies
-          run: yarn install --immutable --frozen-lockfile 
-        - name: Run Prettier
-          run: yarn verify
+          run: yarn install --immutable --frozen-lockfile
+        - name: Validate YAML files
+          run: make validate-yaml
