@@ -1,4 +1,6 @@
 # Deployment
+> [!WARNING]
+> The content below will be redundant when Lightspeed is onboarded fully to RHDH Core and installed by default.
 
 Below you can find documentation related to deploying `Lightspeed Core` and `Llama Stack` in a Pod with `Red Hat Developer Hub (RHDH)`.
 
