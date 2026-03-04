@@ -1,7 +1,6 @@
 # Redhat-AI-Dev Llama Stack
 
 [![Apache2.0 License](https://img.shields.io/badge/license-Apache2.0-brightgreen.svg)](LICENSE)
-[![Python Version](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/downloads/release/python-3120/)
 
 - [Version Table](#version-table)
 - [Provider Configuration](#provider-configuration)
