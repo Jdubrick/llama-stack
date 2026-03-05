@@ -4,6 +4,11 @@
 [![Llama Stack Version](https://img.shields.io/badge/Llama%20Stack-0.4.3-blue)](#version-table)
 [![RHDH Release](https://img.shields.io/badge/RHDH%20Release-1.10-blueviolet)](#version-table)
 
+> [!IMPORTANT]
+> If you are looking for releases prior to RHDH 1.10, please see the [release-v0.1.x](https://github.com/redhat-ai-dev/llama-stack/tree/release-v0.1.x) branch.
+>
+> If you are looking for library mode, plase see the [dev](https://github.com/redhat-ai-dev/llama-stack/tree/dev) branch.
+
 - [Version Table](#version-table)
 - [Release Process](#release-process)
 - [Provider Configuration](#provider-configuration)
