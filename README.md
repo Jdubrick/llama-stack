@@ -37,6 +37,9 @@ Release and hotfix workflow is documented in [docs/RELEASE_PROCESS.md](./docs/RE
 Provider-specific setup and environment variable details live in [docs/PROVIDERS.md](./docs/PROVIDERS.md).
 
 ## Running Locally
+> [!NOTE]
+> You should ensure you have [Podman](https://podman.io/docs/installation) v5.4.1+ (recommended) or [Docker](https://docs.docker.com/engine/) v28.1.0+ with Compose support
+>
 
 Run `make get-rag` first so `./rag-content` exists locally.
 Also ensure `./env/values.env` exists (copy from `./env/default-values.env`).
