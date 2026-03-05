@@ -17,7 +17,7 @@ services:
   llama-stack:
     depends_on: []
     volumes:
-      - ../llama-stack-configs/0.4.3/run-no-guard.yaml:/app-root/run.yaml:ro
+      - ../llama-stack-configs/run-no-guard.yaml:/app-root/run.yaml:ro
       - ../rag-content:/rag-content
 
   lightspeed-core:

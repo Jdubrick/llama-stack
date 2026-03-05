@@ -26,7 +26,7 @@ services:
     environment:
       RUN_CONFIG_PATH: /app-root/run.yaml
     volumes:
-      - ../llama-stack-configs/0.4.3/run.yaml:/app-root/run.yaml:ro
+      - ../llama-stack-configs/run.yaml:/app-root/run.yaml:ro
       - ../rag-content:/rag-content
 
   lightspeed-core:
