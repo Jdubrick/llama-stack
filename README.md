@@ -58,10 +58,10 @@ By default (`WITH_OLLAMA=true`), `make local-up` uses:
 
 - `llama-stack-configs/run.yaml`
 - an Ollama container in compose (required for serving the safety model)
-- compose enforces startup order: Ollama serving with safety model available -> Llama Stack/Lightspeed start
+- compose enforces startup order: Ollama healthy -> Llama Stack healthy -> Lightspeed Core starts
 - Ollama/Safety env vars from `env/values.env`
 
-With `WITH_OLLAMA=false`, `make local-up` applies `compose/compose.no-ollama.yaml` and uses:
+With `WITH_OLLAMA=false`, `make local-up` uses the base compose only:
 
 - `llama-stack-configs/run-no-guard.yaml`
 - no Ollama container (safety guards disabled)

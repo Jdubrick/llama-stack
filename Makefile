@@ -20,9 +20,9 @@ COMPOSE ?= podman compose
 WITH_OLLAMA ?= true
 
 ifeq ($(WITH_OLLAMA),false)
-LOCAL_COMPOSE_FILES := -f compose/compose.yaml -f compose/compose.no-ollama.yaml
-else
 LOCAL_COMPOSE_FILES := -f compose/compose.yaml
+else
+LOCAL_COMPOSE_FILES := -f compose/compose.yaml -f compose/compose.ollama.yaml
 endif
 
 VENV := $(CURDIR)/scripts/python-scripts/.venv

@@ -16,59 +16,33 @@
 services:
   llama-stack:
     image: registry.redhat.io/rhoai/odh-llama-stack-core-rhel9:v3.3
-    depends_on:
-      ollama:
-        condition: service_healthy
     ports:
       - "8321:8321"
     env_file:
       - ../env/values.env
     environment:
-      RUN_CONFIG_PATH: /app-root/run.yaml
+      RUN_CONFIG_PATH: /app-root/run-no-guard.yaml
     volumes:
       - ../llama-stack-configs/run.yaml:/app-root/run.yaml:ro
+      - ../llama-stack-configs/run-no-guard.yaml:/app-root/run-no-guard.yaml:ro
       - ../rag-content:/rag-content
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://127.0.0.1:8321/v1/health | grep -q '\"status\":\"OK\"'",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
 
   lightspeed-core:
     image: quay.io/lightspeed-core/lightspeed-stack:dev-20260226-ca21850
     depends_on:
       llama-stack:
-        condition: service_started
-      ollama:
         condition: service_healthy
     ports:
       - "8080:8080"
     volumes:
       - ./lightspeed-stack.compose.yaml:/app-root/lightspeed-stack.yaml:ro
-
-  ollama:
-    image: docker.io/ollama/ollama:latest
-    env_file:
-      - ../env/values.env
-    entrypoint:
-      - /bin/sh
-      - -c
-    command:
-      - |
-        set -e
-        MODEL="${SAFETY_MODEL:-llama-guard3:8b}"
-        ollama serve &
-        OLLAMA_PID=$$!
-        until ollama list >/dev/null 2>&1; do
-          sleep 1
-        done
-        ollama pull "$${MODEL}"
-        wait "$${OLLAMA_PID}"
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama-data:/root/.ollama
-    healthcheck:
-      test: ["CMD-SHELL", "MODEL=\"$${SAFETY_MODEL:-llama-guard3:8b}\"; ollama list | grep -q \"$${MODEL}\""]
-      interval: 5s
-      timeout: 3s
-      retries: 20
-      start_period: 15s
-
-volumes:
-  ollama-data:
