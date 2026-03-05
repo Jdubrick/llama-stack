@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 RAG_CONTENT_IMAGE ?= quay.io/redhat-ai-dev/rag-content:release-1.9-lls-0.4.3
+QUESTION_VALIDATION_TAG ?= 0.1.17
+QUESTION_VALIDATION_URL ?= https://raw.githubusercontent.com/lightspeed-core/lightspeed-providers/refs/tags/$(QUESTION_VALIDATION_TAG)/resources/external_providers/inline/safety/lightspeed_question_validity.yaml
 COMPOSE ?= podman compose
 WITH_OLLAMA ?= true
 
@@ -59,7 +61,7 @@ help: ## Show this help screen
 
 .PHONY: update-question-validation
 update-question-validation:
-	curl -o ./config/providers.d/inline/safety/lightspeed_question_validity.yaml https://raw.githubusercontent.com/lightspeed-core/lightspeed-providers/refs/tags/0.1.17/resources/external_providers/inline/safety/lightspeed_question_validity.yaml
+	curl -o ./config/providers.d/inline/safety/lightspeed_question_validity.yaml $(QUESTION_VALIDATION_URL)
 
 $(VENV)/bin/activate: ./scripts/python-scripts/requirements.txt
 	python3 -m venv $(VENV)
