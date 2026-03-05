@@ -1,3 +1,8 @@
 # Llama Stack Configuration Files
 
-Each directory maps to a Llama Stack version. Inside you will find the configuration file(s) that are compatible with that version of Llama Stack.
+This directory stores config files for the single active release tracked on `main`.
+
+- `run.yaml` is the default config (with safety guard configuration).
+- `run-no-guard.yaml` disables safety guards for local development.
+
+Historical release-specific configs are maintained in release branches and tags.
