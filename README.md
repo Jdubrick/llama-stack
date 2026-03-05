@@ -1,8 +1,11 @@
 # Redhat-AI-Dev Llama Stack
 
 [![Apache2.0 License](https://img.shields.io/badge/license-Apache2.0-brightgreen.svg)](LICENSE)
+[![Llama Stack Version](https://img.shields.io/badge/Llama%20Stack-0.4.3-blue)](#version-table)
+[![RHDH Release](https://img.shields.io/badge/RHDH%20Release-1.10-blueviolet)](#version-table)
 
 - [Version Table](#version-table)
+- [Release Process](#release-process)
 - [Provider Configuration](#provider-configuration)
 - [Running Locally](#running-locally)
 - [Configuring RAG Content](#configuring-rag-content)
@@ -10,7 +13,6 @@
 - [Running on a Cluster](#running-on-a-cluster)
 - [Makefile Commands](#makefile-commands)
 - [Updating/Formatting YAML Files](#updatingformatting-yaml-files)
-- [Adding a New Llama Stack Version](#adding-a-new-llama-stack-version)
 - [Troubleshooting](#troubleshooting)
 
 ## Version Table
@@ -18,12 +20,16 @@
 | Llama Stack Version | Llama Stack Image | Lightspeed Core Image | RAG Image |
 | ---- | ---- | ---- | ---- |
 | `0.4.3` | `registry.redhat.io/rhoai/odh-llama-stack-core-rhel9:v3.3` | `quay.io/lightspeed-core/lightspeed-stack:dev-20260226-ca21850` | `quay.io/redhat-ai-dev/rag-content:release-1.9-lls-0.4.3` |
-| `0.3.5` | `quay.io/redhat-ai-dev/llama-stack:0.1.4` | `quay.io/lightspeed-core/lightspeed-stack:0.4.0` | `quay.io/redhat-ai-dev/rag-content:release-1.9-lcs` |
-| `0.2.18` | `quay.io/redhat-ai-dev/llama-stack:0.1.2` | `quay.io/lightspeed-core/lightspeed-stack:dev-20251021-ee9f08f` | `quay.io/redhat-ai-dev/rag-content:release-1.8-lcs` |
+
+`main` tracks one active release at a time. Historical releases are preserved in `rhdh-x.x` branches and Git tags.
+
+## Release Process
+
+Release and hotfix workflow is documented in [docs/RELEASE_PROCESS.md](./docs/RELEASE_PROCESS.md).
 
 ## Provider Configuration
 
-Provider-specific setup and environment variable details live in [PROVIDERS.md](./docs/PROVIDERS.md).
+Provider-specific setup and environment variable details live in [docs/PROVIDERS.md](./docs/PROVIDERS.md).
 
 ## Running Locally
 
@@ -50,14 +56,14 @@ make local-down
 
 By default (`WITH_OLLAMA=true`), `make local-up` uses:
 
-- `llama-stack-configs/0.4.3/run.yaml`
+- `llama-stack-configs/run.yaml`
 - an Ollama container in compose (required for serving the safety model)
 - compose enforces startup order: Ollama serving with safety model available -> Llama Stack/Lightspeed start
 - Ollama/Safety env vars from `env/values.env`
 
 With `WITH_OLLAMA=false`, `make local-up` applies `compose/compose.no-ollama.yaml` and uses:
 
-- `llama-stack-configs/0.4.3/run-no-guard.yaml`
+- `llama-stack-configs/run-no-guard.yaml`
 - no Ollama container (safety guards disabled)
 
 ## Configuring RAG Content
@@ -80,10 +86,10 @@ make get-rag RAG_CONTENT_IMAGE=quay.io/redhat-ai-dev/rag-content:<tag>
 
 ## Configuring Safety Guards
 
-In `llama-stack-configs/<version>/run.yaml`, Llama Guard is enabled by default.
+In `llama-stack-configs/run.yaml`, Llama Guard is enabled by default.
 
 > [!IMPORTANT]
-> To skip safety guards for development, use `run-no-guard.yaml` where available under `llama-stack-configs/<version>/`.
+> To skip safety guards for development, use `llama-stack-configs/run-no-guard.yaml`.
 
 Start an Ollama container and pull Llama Guard:
 
@@ -107,7 +113,7 @@ Set these environment variables as needed:
 | `local-down` | Stop local compose services. |
 | `validate-yaml` | Validate YAML formatting/syntax in config directories. |
 | `format-yaml` | Format YAML files in config directories. |
-| `update-question-validation` | Update question-validation content in `config/providers.d`. |
+| `update-question-validation` | Update question-validation content in `config/providers.d`. Optional: `QUESTION_VALIDATION_TAG=<tag>`. |
 | `validate-prompt-templates` | Validate prompt values against upstream templates. |
 | `update-prompt-templates` | Update prompt values from upstream templates. |
 
@@ -120,21 +126,11 @@ make format-yaml
 make validate-yaml
 ```
 
-## Adding a New Llama Stack Version
-
-When introducing a new supported version:
-
-1. Create a new directory in `llama-stack-configs` named exactly as the version (for example `llama-stack-configs/0.5.0`).
-2. Add required configuration files (`run.yaml`, and `run-no-guard.yaml` if applicable).
-3. Reuse the previous version's files as a baseline, then update version-specific model/provider details.
-4. Run formatting and validation:
+For the question-validation sync target, you can override the upstream tag:
 
 ```sh
-make format-yaml
-make validate-yaml
+make update-question-validation QUESTION_VALIDATION_TAG=0.1.17
 ```
-
-1. Update the [Version Table](#version-table) in this README with image references.
 
 ## Troubleshooting
 
