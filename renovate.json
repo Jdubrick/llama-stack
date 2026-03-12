@@ -1,0 +1,90 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    "helpers:pinGitHubActionDigests",
+    ":gitSignOff"
+  ],
+  "timezone": "America/Toronto",
+  "schedule": [
+    "* 19-23 * * 0",
+    "* 0-2 * * 1"
+  ],
+  "enabledManagers": [
+    "dockerfile",
+    "github-actions",
+    "custom.regex",
+    "pep621",
+    "npm"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "(M|m)akefile$"
+      ],
+      "matchStrings": [
+        "RAG_CONTENT_IMAGE\\s+\\?\\=\\s+\"?(?<depName>.*?)\\:release-(?<currentValue>.*)-lcs\"?\\n"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "quay.io/redhat-ai-dev/rag-content"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": ["registry.access.redhat.com/ubi9/ubi-minimal"],
+      "matchUpdateTypes": ["major", "patch"],
+      "enabled": false
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": ["quay.io/lightspeed-core/lightspeed-stack"],
+      "enabled": false
+    },
+    {
+      "matchManagers": ["pep621"],
+      "matchPackageNames": ["python"],
+      "matchUpdateTypes": ["major", "minor"],
+      "enabled": false
+    },
+    {
+      "matchDepNames": ["quay.io/redhat-ai-dev/rag-content"],
+      "extractVersion": "^release-(?<version>\\d+\\.\\d+)-l(c|l)s",
+      "versioning": "loose"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions",
+      "groupSlug": "github-actions",
+      "commitMessageTopic": "{{depName}}"
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "groupName": "dockerfile deps",
+      "groupSlug": "dockerfile-deps",
+      "commitMessageTopic": "{{depName}}"
+    },
+    {
+      "matchManagers": ["pep621"],
+      "groupName": "python deps",
+      "groupSlug": "python-deps",
+      "commitMessageTopic": "{{depName}}"
+    },
+    {
+      "matchManagers": ["npm"],
+      "groupName": "npm deps",
+      "groupSlug": "npm-deps",
+      "commitMessageTopic": "{{depName}}"
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
+  "prHourlyLimit": 20,
+  "prConcurrentLimit": 10,
+  "labels": ["renovatebot"]
+}
