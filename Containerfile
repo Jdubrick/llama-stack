@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-ARG TAG="dev-20260226-ca21850"
+ARG TAG="0.4.2"
 FROM quay.io/lightspeed-core/lightspeed-stack:${TAG} AS builder
 
 USER root
