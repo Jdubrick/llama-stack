@@ -28,6 +28,36 @@ fetch() {
   curl -fsSL "$1" -o "$2"
 }
 
+# Keeps the repository-specific llama_stack library-client config,
+# even though upstream lightspeed-stack.yaml uses direct URL mode.
+apply_lightspeed_stack_override() {
+  local file_path="$1"
+  local tmp_file
+  tmp_file="$(mktemp)"
+  awk '
+    BEGIN { in_block=0; replaced=0 }
+    /^llama_stack:[[:space:]]*$/ {
+      print "llama_stack:"
+      print "  use_as_library_client: true"
+      print "  library_client_config_path: /app-root/config.yaml"
+      in_block=1
+      replaced=1
+      next
+    }
+    in_block && $0 ~ /^[^[:space:]]/ { in_block=0 }
+    in_block { next }
+    { print }
+    END {
+      if (replaced==0) {
+        print "llama_stack:"
+        print "  use_as_library_client: true"
+        print "  library_client_config_path: /app-root/config.yaml"
+      }
+    }
+  ' "${file_path}" > "${tmp_file}"
+  mv "${tmp_file}" "${file_path}"
+}
+
 # Extracts the image value from a section in images.yaml (e.g. "lightspeed-core" -> "quay.io/...:tag")
 extract_image_from_images_yaml() {
   local section="$1"
@@ -108,6 +138,7 @@ fetch "${CONFIG_URL}" "${TMP_DIR}/config.yaml"
 fetch "${DEFAULT_ENV_URL}" "${TMP_DIR}/default-values.env"
 fetch "${LIGHTSPEED_STACK_URL}" "${TMP_DIR}/lightspeed-stack.yaml"
 fetch "${IMAGES_URL}" "${TMP_DIR}/images.yaml"
+apply_lightspeed_stack_override "${TMP_DIR}/lightspeed-stack.yaml"
 
 lightspeed_core_image="$(extract_image_from_images_yaml "lightspeed-core" "${TMP_DIR}/images.yaml")"
 rag_content_image="$(extract_image_from_images_yaml "rag-content" "${TMP_DIR}/images.yaml")"
