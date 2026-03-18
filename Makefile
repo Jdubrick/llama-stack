@@ -55,3 +55,10 @@ validate-prompt-templates: $(VENV)/bin/activate
 
 update-prompt-templates: $(VENV)/bin/activate
 	$(call run_sync,update)
+
+.PHONY: sync-upstream-config validate-upstream-config
+sync-upstream-config: ## Sync upstream config and image pins from lightspeed-configs
+	bash ./scripts/sync/upstream-config.sh update
+
+validate-upstream-config: ## Validate synced upstream config and image pins have not drifted
+	bash ./scripts/sync/upstream-config.sh validate
