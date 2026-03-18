@@ -1,7 +1,7 @@
 # Redhat-AI-Dev Llama Stack
 
 [![Apache2.0 License](https://img.shields.io/badge/license-Apache2.0-brightgreen.svg)](LICENSE)
-[![Llama Stack Version](https://img.shields.io/badge/llama_stack-v0.4.3-blue)](https://llamastack.github.io/docs/v0.4.3)
+[![Llama Stack Version](https://img.shields.io/badge/llama_stack-v0.5.2-blue)](https://llamastack.github.io/docs)
 [![Python Version](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/downloads/release/python-3120/)
 
 - [Image Availability](#image-availability)
@@ -28,7 +28,7 @@
 ## Developer Release (Library Mode)
 
 ```
-quay.io/redhat-ai-dev/llama-stack:library-0.4.3
+quay.io/redhat-ai-dev/llama-stack:library-0.5.2
 ```
 
 # Usage
