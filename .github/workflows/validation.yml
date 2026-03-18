@@ -20,20 +20,15 @@ on:
     branches: [ main ]
 
 jobs:
-  validate-prompt:
+  validate-upstream-config:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    defaults:
-      run:
-        working-directory: ./scripts/python-scripts
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Setup Environment
-        run: pip3 install -r requirements.txt
-      - name: Validate prompt
-        run: python3 sync.py -t validate
+      - name: Validate upstream synced content
+        run: make validate-upstream-config
   validate-yaml:
       runs-on: ubuntu-latest
       permissions:
