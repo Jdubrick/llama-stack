@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-RAG_CONTENT_IMAGE ?= quay.io/redhat-ai-dev/rag-content:release-1.9-lls-0.4.3
+RAG_CONTENT_IMAGE ?= quay.io/redhat-ai-dev/rag-content:release-1.9-lls-0.4.3-d0444cd9b57222ec9bdbaa36354337480a2ecf97
 VENV := $(CURDIR)/scripts/python-scripts/.venv
 PYTHON := $(VENV)/bin/python3
 PIP := $(VENV)/bin/pip3
