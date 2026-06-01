@@ -1,5 +1,9 @@
 # Redhat-AI-Dev Llama Stack
 
+> [!IMPORTANT]
+> This repository has been **archived**. Configuration files for Lightspeed can be found at [github.com/redhat-ai-dev/lightspeed-configs](https://github.com/redhat-ai-dev/lightspeed-configs/tree/main).
+
+
 [![Apache2.0 License](https://img.shields.io/badge/license-Apache2.0-brightgreen.svg)](LICENSE)
 [![Llama Stack Version](https://img.shields.io/badge/llama_stack-v0.3.5-blue)](https://llamastack.github.io/docs/v0.3.5)
 [![Python Version](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/downloads/release/python-3120/)
